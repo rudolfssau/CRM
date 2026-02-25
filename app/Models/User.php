@@ -5,23 +5,32 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles; // Add this line
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles; // Add HasRoles here
+    use HasFactory, Notifiable, HasRoles;
 
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'name',
         'email',
         'password',
     ];
 
+    /**
+     * @var string[]
+     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    /**
+     * @return string[]
+     */
     protected function casts(): array
     {
         return [

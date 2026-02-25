@@ -7,8 +7,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class CustomerSegment extends Model
 {
+    /**
+     * @var string[]
+     */
     protected $fillable = ['name', 'description'];
 
+    /**
+     * @return BelongsToMany
+     */
     public function customers(): BelongsToMany
     {
         return $this->belongsToMany(Customer::class);

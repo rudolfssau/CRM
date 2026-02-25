@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Contract extends Model
 {
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'customer_id',
         'contract_number',
@@ -19,18 +22,28 @@ class Contract extends Model
         'document_path',
     ];
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
         'value' => 'decimal:2',
     ];
 
+    /**
+     * @return BelongsTo
+     */
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
 
-    // Auto-generate contract number
+    /**
+     * @return void
+     *
+     * Auto-generate contract number
+     */
     protected static function booted()
     {
         static::creating(function ($contract) {
@@ -40,7 +53,11 @@ class Contract extends Model
         });
     }
 
-    // Check if contract is expiring soon (within 30 days)
+    /**
+     * @return bool
+     *
+     * Check if contract is expiring soon (within 30 days)
+     */
     public function isExpiringSoon(): bool
     {
         return $this->end_date->diffInDays(now()) <= 30 && $this->end_date->isFuture();

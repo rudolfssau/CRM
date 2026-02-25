@@ -7,8 +7,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Inventory extends Model
 {
+    /**
+     * @var string
+     */
     protected $table = 'inventory';
 
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'product_id',
         'quantity',
@@ -17,18 +23,29 @@ class Inventory extends Model
         'location',
     ];
 
+    /**
+     * @return BelongsTo
+     */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    // Available quantity (not reserved)
+    /**
+     * @return int
+     *
+     * Available quantity (not reserved)
+     */
     public function getAvailableAttribute(): int
     {
         return $this->quantity - $this->reserved;
     }
 
-    // Check if stock is low
+    /**
+     * @return bool
+     *
+     * Check if stock is low
+     */
     public function isLowStock(): bool
     {
         return $this->quantity <= $this->min_stock;

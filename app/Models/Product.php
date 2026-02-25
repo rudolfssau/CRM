@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'category_id',
         'sku',
@@ -20,17 +23,26 @@ class Product extends Model
         'type',
     ];
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'price' => 'decimal:2',
         'cost' => 'decimal:2',
         'is_active' => 'boolean',
     ];
 
+    /**
+     * @return BelongsTo
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(ProductCategory::class);
     }
 
+    /**
+     * @return HasOne
+     */
     public function inventory(): HasOne
     {
         return $this->hasOne(Inventory::class);

@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Invoice extends Model
 {
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'customer_id',
         'deal_id',
@@ -20,6 +23,9 @@ class Invoice extends Model
         'notes',
     ];
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'issue_date' => 'date',
         'due_date' => 'date',
@@ -28,17 +34,27 @@ class Invoice extends Model
         'total' => 'decimal:2',
     ];
 
+    /**
+     * @return BelongsTo
+     */
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function deal(): BelongsTo
     {
         return $this->belongsTo(Deal::class);
     }
 
-    // Auto-generate invoice number
+    /**
+     * @return void
+     *
+     * Auto-generate invoice number
+     */
     protected static function booted()
     {
         static::creating(function ($invoice) {

@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PcBuildItem extends Model
 {
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'pc_build_id',
         'product_id',
@@ -15,21 +18,34 @@ class PcBuildItem extends Model
         'component_type',
     ];
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'price' => 'decimal:2',
     ];
 
+    /**
+     * @return BelongsTo
+     */
     public function pcBuild(): BelongsTo
     {
         return $this->belongsTo(PcBuild::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    // Update parent build total when item is saved/deleted
+    /**
+     * @return void
+     *
+     * Update parent build total when item is saved/deleted
+     */
     protected static function booted()
     {
         static::saved(function ($item) {

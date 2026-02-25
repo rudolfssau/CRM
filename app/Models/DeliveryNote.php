@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DeliveryNote extends Model
 {
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'customer_id',
         'invoice_id',
@@ -17,21 +20,34 @@ class DeliveryNote extends Model
         'notes',
     ];
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'delivery_date' => 'date',
     ];
 
+    /**
+     * @return BelongsTo
+     */
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function invoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class);
     }
 
-    // Auto-generate delivery note number
+    /**
+     * @return void
+     *
+     * Auto-generate delivery note number
+     */
     protected static function booted()
     {
         static::creating(function ($note) {

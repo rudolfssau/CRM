@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PcBuild extends Model
 {
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'name',
         'description',
@@ -14,17 +17,25 @@ class PcBuild extends Model
         'is_template',
     ];
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'total_price' => 'decimal:2',
         'is_template' => 'boolean',
     ];
 
+    /**
+     * @return HasMany
+     */
     public function items(): HasMany
     {
         return $this->hasMany(PcBuildItem::class);
     }
 
-    // Auto-calculate total price when items change
+    /**
+     * @return void
+     */
     protected static function booted()
     {
         static::saved(function ($build) {
